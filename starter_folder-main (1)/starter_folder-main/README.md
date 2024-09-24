@@ -1,11 +1,10 @@
-# Starter folder
+# Demographic survey on Toronto shelter
 
 ## Overview
+This paper analyzes data from the City of Toronto's Shelter Management Information System (SMIS) to explore homelessness trends and shelter usage patterns. Key metrics such as returns to shelters after housing and the actively homeless population are examined across different demographic groups. The findings reveal that non-refugees and single adults face significant challenges in maintaining stable housing, with high rates of return to shelters. Additionally, the data shows an increase in homelessness post-2020, likely influenced by economic disruptions during the COVID-19 pandemic. The study highlights the need for targeted interventions to address housing stability and reduce homelessness in Toronto.
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
 
-
-## File Structure
+### File Structure
 
 The repo is structured as:
 
@@ -17,14 +16,6 @@ The repo is structured as:
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
 
-## Statement on LLM usage
+#### Statement on LLM usage
 
 Aspects of the code were written with the help of the auto-complete tool, ChatGPT. The abstract and introduction were written with the help of ChatGPT and the entire chat history is available in inputs/llms/usage.txt.
-
-## Some checks
-
-- [ ] Change the rproj file name so that it's not starter_folder.Rproj
-- [ ] Change the README title so that it's not Starter folder
-- [ ] Remove files that you're not using
-- [ ] Update comments in R scripts
-- [ ] Remove this checklist
