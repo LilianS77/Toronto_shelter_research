@@ -62,7 +62,7 @@ library(ggplot2)
 library(dplyr)
 
 # Load the dataset (update with your file path)
-data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/data1.csv")
+data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/trtdata1.csv")
 
 # Bar plot for 'returned_from_housing'
 ggplot(data, aes(x = population_group, y = returned_from_housing, fill = population_group)) +
@@ -108,7 +108,7 @@ library(ggplot2)
 library(dplyr)
 
 # Load the dataset (update the file path)
-data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/data1.csv")
+data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/trtdata1.csv")
 
 # Convert the 'date.mmm.yy.' column to Date format
 data$date <- as.Date(paste0("01-", data$date.mmm.yy.), format = "%d-%b-%y")
