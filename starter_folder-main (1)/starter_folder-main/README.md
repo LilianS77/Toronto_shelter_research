@@ -1,7 +1,7 @@
 # Demographic survey on Toronto shelter
 
 ## Overview
-This paper analyzes data from the City of Toronto's Shelter Management Information System (SMIS) to explore homelessness trends and shelter usage patterns. Key metrics such as returns to shelters after housing and the actively homeless population are examined across different demographic groups. The findings reveal that non-refugees and single adults face significant challenges in maintaining stable housing, with high rates of return to shelters. Additionally, the data shows an increase in homelessness post-2020, likely influenced by economic disruptions during the COVID-19 pandemic. The study highlights the need for targeted interventions to address housing stability and reduce homelessness in Toronto.
+This repo includes paper that analyzes data from the City of Toronto's Shelter Management Information System (SMIS) to explore homelessness trends and shelter usage patterns. Key metrics such as returns to shelters after housing and the actively homeless population are examined across different demographic groups. The findings reveal that non-refugees and single adults face significant challenges in maintaining stable housing, with high rates of return to shelters. Additionally, the data shows an increase in homelessness post-2020, likely influenced by economic disruptions during the COVID-19 pandemic. The study highlights the need for targeted interventions to address housing stability and reduce homelessness in Toronto.
 
 
 ### File Structure
