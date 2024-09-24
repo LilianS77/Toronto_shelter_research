@@ -1,44 +1,31 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Cleans the raw plane data recorded by 1 observer.
+# Author: Xizi Sun
+# Date: 23 September 2024 
+# Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: Install the tidyverse
+# Any other information needed? no
+
 
 #### Workspace setup ####
 library(tidyverse)
 
-#### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+library(dplyr)
 
-cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
-  mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
-  ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
-  mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+# Load the dataset (replace with the correct file path)
+data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/trtdata1.csv")
+
+# Remove the columns: "X_id", "became_inactive", "actively_homeless"
+cleaned_data <- data %>%
+  select(-X_id, -became_inactive, -actively_homeless)
+
+# Display the first few rows of the cleaned data
+head(cleaned_data)
+
+# Optionally, write the cleaned data to a new CSV file
+write.csv(cleaned_data, "cleaned_trtdata1.csv", row.names = FALSE)
+
 
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+write_csv(cleaned_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/starter_folder-main/data/analysis_data/cleaned_data.csv")
