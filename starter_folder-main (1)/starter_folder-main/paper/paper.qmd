@@ -5,7 +5,7 @@ author:
 thanks: "A GitHub Repository containing all data, R code, and other files used in this investigation is located here: https://github.com/LilianS77/Toronto_shelter_research.git"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This paper analyzes data from the City of Toronto's Shelter Management Information System (SMIS) to explore homelessness trends and shelter usage patterns. Key metrics such as returns to shelters after housing and the actively homeless population are examined across different demographic groups. The findings reveal that non-refugees and single adults face significant challenges in maintaining stable housing, with high rates of return to shelters. Additionally, the data shows an increase in homelessness post-2020, likely influenced by economic disruptions during the COVID-19 pandemic. The study highlights the need for targeted interventions to address housing stability and reduce homelessness in Toronto."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -25,42 +25,38 @@ library(tidyverse)
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+Homelessness is a pressing issue in major cities worldwide, and Toronto is no exception. Recent observations suggest a growing number of homeless individuals on Toronto streets, raising concerns about the dynamics of the shelter system, the demographics of those affected, and their pathways into homelessness. To address these concerns, this study aims to analyze the flow of individuals into and out of Toronto’s shelter system, with a particular focus on understanding the origins and characteristics of the homeless population.By analyzing the patterns in shelter use, this study seeks to answer key questions such as: where are these individuals coming from, what are their demographic characteristics, and how frequently do they cycle through the shelter system? Understanding these factors is critical for identifying gaps in services and making data-driven policy recommendations to reduce homelessness in Toronto. The ultimate goal, in line with the City’s vision, is to contribute to efforts that make homelessness in Toronto a rare, brief, and non-recurring experience.
 
-The remainder of this paper is structured as follows. @sec-data....
+In this paper, I will analyze key indicators such as the number of people returning to shelters after being housed, the rate of newly identified homeless individuals, and demographic breakdowns such as age, gender, and population groups (youth, families, refugees, Indigenous individuals, etc.). This analysis will help illuminate the pathways into homelessness and provide evidence for policies aimed at mitigating the problem.
 
+This paper is organized into several sections, each contributing to a comprehensive understanding of homelessness in Toronto, based on the provided shelter system dataset. The structure includes an exploration of the dataset, visualizations of key metrics, analysis of trends and patterns, and a discussion of the implications of these findings.
 
 
 # Data {#sec-data}
+## Overview
+The dataset used in this study is sourced from the City of Toronto’s Shelter Management Information System (SMIS). This system tracks individuals who access the city's network of overnight shelters, respites, hotel/motel programs, and other allied services. The dataset provides monthly records on the movement of people into and out of these services, offering insight into the demographics, trends, and dynamics of homelessness in Toronto.
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+## Data Measurement
+The dataset used in this study comes from the City of Toronto’s Shelter Management Information System (SMIS), which tracks individuals using shelters, respites, and other homeless services. The key variables and measurements include:
 
-```{r}
-#| echo: false
-#| warning: false
-# Search for a specific package on OpenDataToronto by keyword ("Toronto Shelter System Flow")
-trt_shelter <- search_packages("Toronto Shelter System Flow")
-trt_shelter
-# Retrieve a list of all resources (datasets) available within the found package
-trt_shelter_resources <- trt_shelter %>%
-  list_package_resources()
-# Display the list of resources available in the "Toronto Shelter System Flow" package
-trt_shelter_resources
+1. Shelter Flow Metrics
+Returned from Housing: Measures the number of people who were housed but returned to shelters, indicating the challenges in maintaining stable housing.
+Returned to Shelter: Tracks the number of people returning to shelters after leaving, providing insight into repeat shelter use.
+Newly Identified: Captures individuals entering the shelter system for the first time, highlighting new cases of homelessness.
+Moved to Housing: Counts people transitioning from shelters into permanent housing, a key measure of the system’s success in reducing homelessness.
+2. Population Groups
+Chronic Homelessness: Long-term homelessness, defined as 180 days in the past year or 546 days over three years.
+Families, Youth, and Refugees: Specific groups are tracked to tailor interventions and support services based on different needs.
+Indigenous Identity: Tracks those self-identifying as First Nations, Métis, or Inuit, given their disproportionate representation in the homeless population.
+\newpage
 
-trt_shelter <- trt_shelter_resources[2,] %>%
-  get_resource()
-data=trt_shelter
-
-```
-
-
-
+# result
 
 ```{r}
 #| echo: false
 #| warning: false
-#| label: fig-total-population
-#| fig-cap: "Trend of Homeless Population in Toronto"
+#| label: fig-returned-from-housing
+#| fig-cap: "Returned from Housing Across Population Groups"
 # Load necessary libraries
 library(ggplot2)
 library(dplyr)
@@ -77,12 +73,17 @@ ggplot(data, aes(x = population_group, y = returned_from_housing, fill = populat
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+### figure 1
+This bar plot shows the number of individuals from different population groups who returned to shelters after previously being housed. Key insights from the graph:
+
+The All Population group has the highest number of returns from housing, with over 4,000 individuals.
+Non-refugees and Single Adults also have a significant number of returns, indicating challenges for these groups in maintaining permanent housing.
+Other population groups, such as Chronic, Families, and Youth, have much lower numbers of individuals returning from housing, but this might reflect their smaller total numbers in the population or different levels of support they receive.
 ```{r}
-# Bar plot for 'returned_to_shelter'
 #| echo: false
 #| warning: false
-#| label: fig-total-population
-#| fig-cap: "Trend of Homeless Population in Toronto"
+#| label: fig-returned-to-shelter
+#| fig-cap: "Returned to Shelter Across Population Groups"
 ggplot(data, aes(x = population_group, y = returned_to_shelter, fill = population_group)) +
   geom_bar(stat = "identity") +
   labs(title = "Returned to Shelter Across Population Groups",
@@ -90,6 +91,13 @@ ggplot(data, aes(x = population_group, y = returned_to_shelter, fill = populatio
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+### firgure 2
+This bar plot visualizes the number of individuals returning to shelters across various population groups. Key insights:
+
+The All Population group dominates again, with over 30,000 people returning to shelters.
+Non-refugees and Single Adults show similarly high returns, indicating that these groups have more difficulty staying housed.
+Chronic, Indigenous, and Families groups have fewer returns, although these groups may face other challenges in accessing shelter or permanent housing.
+Youth shows relatively low numbers of returns to shelters.
 ```{r}
 #| echo: false
 #| warning: false
@@ -115,169 +123,42 @@ ggplot(data, aes(x = date, y = actively_homeless, color = population_group, grou
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+### firgure 3
+This line plot shows the trends in the number of actively homeless individuals across different population groups from 2018 to 2024. Key trends:
 
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
-
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
-
-Talk way more about it. 
-
-
-
-# Model
-
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
-
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
-
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-library(rstanarm)
-
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
-
-
+The All Population group consistently has the highest number of actively homeless individuals over time, though there are fluctuations in the count.
+Non-refugees and Single Adults have seen a significant increase in actively homeless individuals since 2020, which may indicate worsening conditions or increased difficulty in accessing housing.
+Chronic and Families groups have more stable trends, while Youth and Indigenous groups show more modest and stable numbers.
+The trend highlights the overall increase in homelessness post-2020 for several groups, which could be linked to broader economic or social factors affecting housing availability.
 
 
 # Discussion
+This analysis sheds light on the patterns and dynamics of homelessness in Toronto, drawing on data from the City’s shelter system. The key findings indicate significant challenges for certain population groups in maintaining permanent housing, frequent returns to shelters, and a concerning rise in homelessness over time, particularly after 2020.
 
 ## First discussion point {#sec-first-point}
-
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+The Returned from Housing analysis revealed that individuals from the Non-refugee and Single Adult groups face persistent barriers in sustaining housing stability, with high return rates to shelters. This suggests that these groups may not be receiving sufficient support or resources, such as access to affordable housing, stable employment opportunities, or necessary mental health services. Additionally, the overall high return rate across the All Population group reflects the broader systemic issue of housing insecurity in Toronto, where many individuals struggle to transition from temporary shelters to permanent housing.
 
 ## Second discussion point
+The Returned to Shelter plot reinforced these findings, highlighting how certain population groups—particularly Non-refugees and Single Adults—are cycling in and out of the shelter system more frequently. This revolving-door effect suggests that while shelters provide temporary relief, they are not effectively breaking the cycle of homelessness for many individuals. The lower return rates for Chronic, Families, and Youth might indicate more successful interventions for these groups, though their continued presence in shelters points to a need for further long-term solutions
 
 ## Third discussion point
+The Trend of Actively Homeless Population Over Time provides a broader context for understanding how homelessness in Toronto has evolved. The significant rise in homelessness after 2020, especially among Non-refugees and Single Adults, may be attributed to the economic impact of the COVID-19 pandemic, including job losses, eviction increases, and reduced access to social services. This trend underscores the vulnerability of certain groups during times of economic instability and highlights the need for responsive, proactive policies that address housing affordability, economic security, and social support.
 
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
 
 \newpage
 
 \appendix
 
 # Appendix {-}
+## Dataset and Graph Sketches {#sec-appendix-sketches}
 
+Sketches depicting both the desired dataset and the graphs generated in this analysis are available in the GitHub Repository.
+
+## Data Cleaning {#sec-appendix-cleaning}
+
+The data cleaning process involved filtering out some of the columns from the raw dataset and renaming some of the data entries for clarity and simplicity.
 
 # Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
 
 
 
