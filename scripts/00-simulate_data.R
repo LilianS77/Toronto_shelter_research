@@ -37,6 +37,6 @@ simulated_data <- data.frame(
 head(simulated_data)
 
 # Optionally, save the simulated data to a CSV file
-write.csv(simulated_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/simulated_data.csv")
+write.csv(simulated_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/simulated_data.csv")
 
 
