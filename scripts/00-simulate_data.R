@@ -7,36 +7,40 @@
 # Pre-requisites: Install the tidyverse
 # Any other information needed? no
 
+# Load necessary libraries
+library(dplyr)
 
-#### Workspace setup ####
-library(tidyverse)
+# Define the population groups
+population_groups <- c("All Population", "Chronic", "Refugees", "Families", "Youth", "Single Adult", "Non-refugees")
 
-
-#### Simulate data ####
-
-# Set seed for reproducibility
-
+# Set up the simulation for 12 months (2018), monthly data
 set.seed(123)
+n_months <- 12  # Simulate for 12 months
+dates <- format(seq(as.Date("2018-01-01"), by = "month", length.out = n_months), "%b-%y")
 
-# Number of rows (change based on your dataset size)
-n <- 100  
-
-# Simulate "returned_from_housing" data: Assuming a normal distribution around 50 with some variation
-returned_from_housing <- round(rnorm(n, mean = 50, sd = 15))
-
-# Simulate "returned_to_shelter" data: Assuming a normal distribution around 100 with some variation
-returned_to_shelter <- round(rnorm(n, mean = 100, sd = 30))
-
-# Combine the simulated data into a data frame
+# Create simulated data without the removed columns
 simulated_data <- data.frame(
-  returned_from_housing = returned_from_housing,
-  returned_to_shelter = returned_to_shelter
+  date.mmm = rep(dates, each = length(population_groups)),
+  population_group = rep(population_groups, times = n_months),
+  newly_identified = sample(0:1200, n_months * length(population_groups), replace = TRUE),
+  moved_to_housing = sample(0:600, n_months * length(population_groups), replace = TRUE),
+  age_under_16 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_16_24 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_25_34 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_35_44 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_45_54 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_55_64 = sample(0:1500, n_months * length(population_groups), replace = TRUE),
+  age_65over = sample(0:1500, n_months * length(population_groups), replace = TRUE)
 )
+
+# Preview the simulated data
+head(simulated_data)
+
+# Optionally, save to a CSV
+write.csv(simulated_data,"/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/simulated_data.csv")
 
 # View the first few rows of the simulated data
 head(simulated_data)
 
-# Optionally, save the simulated data to a CSV file
-write.csv(simulated_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/simulated_data.csv")
 
 

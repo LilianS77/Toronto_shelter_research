@@ -49,7 +49,7 @@ data=trt_shelter
 
 
 trt_shelter
-write.csv(trt_shelter,"/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/trtdata1.csv")
+write.csv(trt_shelter,"/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/raw_data.csv")
 
 
 
