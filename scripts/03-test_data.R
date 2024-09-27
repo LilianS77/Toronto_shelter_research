@@ -4,7 +4,7 @@
 # Date: 23 September 2024 
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: Install the tidyverse
+# Pre-requisites: Run the files "01-download_data.R" and "02-data_cleaning.R".
 # Any other information needed? no
 
 
@@ -14,7 +14,8 @@ library(dplyr)
 ### Part 1: Test the Simulated Data
 
 # Load the simulated data
-simulated_data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/simulated_data.csv")
+simulated_data <- read_csv(here::here("data", "raw_data", "simulated_data.csv"))
+
 
 cat("----Testing Simulated Data----\n")
 
@@ -58,8 +59,7 @@ print(unique_population_groups)
 ### Part 2: Test the Cleaned Data
 
 # Load the cleaned data
-cleaned_data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/analysis_data.csv")
-
+cleaned_data <- read_csv(here::here("data", "analysis_data", "analysis_data.csv"))
 cat("\n----Testing Cleaned Data----\n")
 
 # 1. Test for duplicate rows
