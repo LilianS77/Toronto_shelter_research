@@ -31,7 +31,7 @@ In recent years, the growing number of homeless people in Toronto has raised con
 
 Despite the growing awareness of Toronto's homelessness crisis, most existing research has not adequately discussed the changing composition of the homeless population. This study aims to fill this gap by analyzing these demographic changes in detail and linking them to broader societal trends. By identifying the groups most at risk, the study provides important insights into how the city of Toronto can better allocate resources to prevent homelessness.
 
-In this report, @sec-data-tools describes the data tools I used to analyze the data, and @sec-data-source-and-measurement explains the context and measurements used with this dataset. @sec-data-selection explains the reasons for not choosing another database. @sec-Results presents and describes the demographic distribution and trends of homelessness in graphs and charts. @sec-Discussion analyzes the information in the graphs in the context of the community and describes the limitations of the study.
+In this report, @sec-data-tools describes the data tools I used to analyze the data, and @sec-data-source-and-measurement explains the context and measurements used with this dataset. @sec-data-selection explains the reasons for not choosing another database. @sec-result presents and describes the demographic distribution and trends of homelessness in graphs and charts. @sec-discussion analyzes the information in the graphs in the context of the community and describes the limitations of the study.
 
 # Data {#sec-data}
 
@@ -219,7 +219,7 @@ ggplot(age_group_proportion_trend_yearly, aes(x = factor(year), y = Proportion, 
 
 \newpage
 
-# Discussion {#sec-data}
+# Discussion {#sec-discussion}
 
 ## Overview of Homeless in Toronto  {#sec-overview-of-Toronto-homeless}
 Rising rates of homelessness in Toronto reflect significant challenges in managing housing instability, particularly among specific vulnerable groups. According to a comprehensive literature review on homelessness in Toronto, the number of homeless people has increased dramatically over the past few decades [@gaetz2004homelessness]. The data @fig-returned-to-shelter and @fig-returned-from-housing shows that non-refugees and single adults make up the largest percentage of those returning to shelters, demonstrating their vulnerability and continued housing insecurity. This trend is likely caused by economic challenges, lack of affordable housing, and inadequate social safety nets. The literature [@gaetz2004homelessness] highlights how policy changes, including cuts to social housing and benefits, have exacerbated the problem, putting more people at risk of chronic homelessness.
