@@ -16,7 +16,7 @@ raw_data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/d
 
 # Perform data cleaning: keep only the columns that were simulated
 cleaned_data <- raw_data %>%
-  select(date.mmm.yy., population_group, newly_identified, moved_to_housing, 
+  select(date.mmm.yy., population_group, returned_from_housing, returned_to_shelter, 
          ageunder16, age16.24, age25.34, age35.44, age45.54, age55.64, age65over)
 
 # Preview the cleaned data
