@@ -8,24 +8,19 @@
 # Any other information needed? no
 
 
-#### Workspace setup ####
-library(tidyverse)
-
+# Load necessary library
 library(dplyr)
 
-# Load the dataset (replace with the correct file path)
-data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/trtdata1.csv")
+# Load the raw data (replace 'raw_data.csv' with your actual file path if different)
+raw_data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/raw_data.csv")
 
-# Remove the columns: "X_id", "became_inactive", "actively_homeless"
-cleaned_data <- data %>%
-  select(-X_id, -became_inactive, -actively_homeless)
+# Perform data cleaning: keep only the columns that were simulated
+cleaned_data <- raw_data %>%
+  select(date.mmm.yy., population_group, newly_identified, moved_to_housing, 
+         ageunder16, age16.24, age25.34, age35.44, age45.54, age55.64, age65over)
 
-# Display the first few rows of the cleaned data
+# Preview the cleaned data
 head(cleaned_data)
 
-# Optionally, write the cleaned data to a new CSV file
-write.csv(cleaned_data, "cleaned_trtdata1.csv", row.names = FALSE)
-
-
 #### Save data ####
-write_csv(cleaned_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/starter_folder-main (1)/starter_folder-main/data/analysis_data/cleaned_data.csv")
+write_csv(cleaned_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/analysis_data.csv")
