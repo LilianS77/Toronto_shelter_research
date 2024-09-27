@@ -1,12 +1,13 @@
 ---
-title: "Demographic survey on Toronto shelter"
+title: "Who's Homeless in Toronto: Major Trends in Single Adults Aged 25 to 44 Becoming Homeless from 2018 to 2024"
 author: 
   - Xizi Sun
 thanks: "A GitHub Repository containing all data, R code, and other files used in this investigation is located here: https://github.com/LilianS77/Toronto_shelter_research.git"
 date: today
 date-format: long
-abstract: "重写·"
+abstract: "This study examines homelessness trends in Toronto from 2018 to 2024, focusing on demographic shifts and socio-economic factors. Findings show a sharp rise in homelessness among single adults aged 25-44, largely due to post-pandemic unemployment. The research provides insights into how Toronto can better allocate resources to reduce homelessness by targeting vulnerable groups. Stronger public policies focused on expanding support services and employment opportunities for at-risk populations are recommended."
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 ---
@@ -19,16 +20,18 @@ bibliography: references.bib
 library(opendatatoronto)
 library(tidyverse)
 library(knitr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
 ```
-
 
 # Introduction {#sec-introduction}
 
-Homelessness is a pressing issue in major cities worldwide, and Toronto is no exception. Recent observations suggest a growing number of homeless individuals on Toronto streets, raising concerns about the dynamics of the shelter system, the demographics of those affected, and their pathways into homelessness. To address these concerns, this study aims to analyze the flow of individuals into and out of Toronto’s shelter system, with a particular focus on understanding the origins and characteristics of the homeless population.By analyzing the patterns in shelter use, this study seeks to answer key questions such as: where are these individuals coming from, what are their demographic characteristics, and how frequently do they cycle through the shelter system? Understanding these factors is critical for identifying gaps in services and making data-driven policy recommendations to reduce homelessness in Toronto. The ultimate goal, in line with the City’s vision, is to contribute to efforts that make homelessness in Toronto a rare, brief, and non-recurring experience.
+In recent years, the growing number of homeless people in Toronto has raised concerns and alarms, generating a high level of public concern and calls for action. This paper uses dataset to analyze age group trends and demographic dynamics of Toronto's homeless population, using the “Toronto Shelter System Flows” dataset [@torontosheltersystem] that tracks homelessness from 2018 to 2024. By focusing on how different age groups and populations are affected, the study delves into the rising rates of homelessness among single adults aged 25-44. It also discusses the post-pandemic rise in unemployment as a socio-economic factor contributing to these trends [@jones2020canadianlabourmarket].
 
-In this paper, I will analyze key indicators such as the number of people returning to shelters after being housed, the rate of newly identified homeless individuals, and demographic breakdowns such as age, gender, and population groups (youth, families, refugees, Indigenous individuals, etc.). This analysis will help illuminate the pathways into homelessness and provide evidence for policies aimed at mitigating the problem.
+Despite the growing awareness of Toronto's homelessness crisis, most existing research has not adequately discussed the changing composition of the homeless population. This study aims to fill this gap by analyzing these demographic changes in detail and linking them to broader societal trends. By identifying the groups most at risk, the study provides important insights into how the city of Toronto can better allocate resources to prevent homelessness.
 
-This paper is organized into several sections, each contributing to a comprehensive understanding of homelessness in Toronto, based on the provided shelter system dataset. The structure includes an exploration of the dataset, visualizations of key metrics, analysis of trends and patterns, and a discussion of the implications of these findings.
+In this report, @sec-data-tools describes the data tools I used to analyze the data, and @sec-data-source-and-measurement explains the context and measurements used with this dataset. @sec-data-selection explains the reasons for not choosing another database. @sec-Results presents and describes the demographic distribution and trends of homelessness in graphs and charts. @sec-Discussion analyzes the information in the graphs in the context of the community and describes the limitations of the study.
 
 # Data {#sec-data}
 
@@ -57,23 +60,17 @@ head(cleaned_data[, c("date.mmm.yy.", "population_group", "returned_from_housing
 
 ```
 
-
-## Data Selection
+## Data Selection {#sec-data-selection}
 
 There are many databases on homelessness in Toronto, such as About Hostel Services: Homeless Shelter Locations[@toronto2019hostelservices], but it doesn't distinguish well between population types, and we can't tell from it where homeless people come from. The data [@torontosheltersystem] I chose has very complete age groupings and also divides the people who seek help from shelters like they return from housing or return to shelter. better still we can know more information about the homeless from this dataset such as whether they are refugees, single or have a family so that we can combine it with the literature to have a better discussion about the Homeless trends and causes of homelessness in Toronto.
 
-\newpage
-
-# result
+# Result {#sec-result}
 
 ```{r}
 #| echo: false
 #| warning: false
 #| label: fig-total-homeless-trend-by-quarter
 #| fig-cap: "Total Homeless Population Trend by Quarter"
-library(ggplot2)
-library(dplyr)
-library(lubridate)
 
 # Generated by ChatGPT
 
@@ -102,9 +99,7 @@ ggplot(total_homeless_quarter_trend, aes(x = period, y = total_homeless, group =
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
-
-@fig-total-homeless-trend-by-quarter shows the total homeless population trend from 2018 Q1 to 2024 Q2. The population rises until 2019, then sharply declines in 2020, with the lowest point falling below 60,000. From 2021 onward, the population steadily increases, reaching its highest point in 2024 Q2, exceeding 80,000.
+@fig-total-homeless-trend-by-quarter shows the total homeless population trend from 2018 Q1 to 2024 Q2. The population rises until 2019, then sharply declines in 2020, with the lowest point falling below 80,000. From 2021 onward, the population steadily increases, reaching its highest point in 2024 Q2, exceeding 120,000.
 ```{r}
 #| echo: false
 #| warning: false
@@ -135,8 +130,7 @@ ggplot(
 #| label: fig-returned-from-housing
 #| fig-cap: "Returned from Housing Across Population Groups"
 
-# Load dplyr to ensure the correct filter function is used
-library(dplyr)
+#Generated by ChatGPT
 
 # Ensure you are referencing the correct dataset, like 'cleaned_data'
 ggplot(
@@ -149,7 +143,6 @@ ggplot(
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 ```
 @fig-returned-from-housing shows shelter returns among different demographic groups, and similar to returns to shelters, non-refugees had the highest number of returns from shelter, just over 4,000. The number of single adults is also high at just under 4,000. Chronically ill and family populations are moderately represented, with both returning from shelters in the range of 1,000 to 1,500 people. The indigenous and youth groups have the lowest rates of return from housing, with just over 500 indigenous people and just over 1,000 youth.
 
@@ -158,9 +151,6 @@ ggplot(
 #| warning: false
 #| label: fig-age-group-distribution-single-adult-pie
 #| fig-cap: "Age Group Distribution in Single Adult Population"
-library(ggplot2)
-library(dplyr)
-library(lubridate)
 
 #generated by ChatGPT
 
@@ -183,9 +173,6 @@ single_adult_population <- single_adult_population %>%
 ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar(theta = "y") +
-  labs(
-    title = "Age Group Distribution in Single Adult Population"
-  ) +
   geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +  # Add percentage labels
   theme_void() +  # Remove unnecessary axes
   theme(legend.position = "right") +
@@ -197,9 +184,6 @@ ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`))
 #| warning: false
 #| label: fig-age-group-proportion-trend-yearly
 #| fig-cap: "Trends in Age Group Proportions Over Time (Yearly)"
-library(ggplot2)
-library(dplyr)
-library(lubridate)
 
 #developed by ChatGPT
 
@@ -245,28 +229,14 @@ In @fig-returned-to-shelter and @fig-returned-from-housing, we see that single a
 
 ## Future Insights {#sec-Future-Insights}
 Given the rising rates of homelessness among single adults, public policy interventions must address both immediate and long-term solutions. Expanding affordable housing and strengthening employment support programs are critical. Governments at all levels should also focus on improving access to mental health services and implementing policies that prevent evictions, especially in times of economic crises. A particular emphasis should be placed on preventative measures, such as emergency rental assistance programs and increasing the availability of affordable housing [@gaetz2004homelessness]. Additionally, the development of job retraining programs tailored to individuals who have lost employment due to economic downturns could provide sustainable solutions for those in the 25-44 age bracket.
+
 ## Weakness and Limitations {#sec-Weakness-and-Limitations}
 While the data provides valuable insights into homelessness trends in Toronto, there are important limitations that should be acknowledged. The dataset reflects only individuals who use overnight shelter services, excluding those who sleep outdoors or rely on non-shelter-based services. Additionally, shelters that do not participate in Toronto's Shelter Management Information System (SMIS) are not included in the dataset. As a result, the data may underestimate the total homeless population, especially among individuals who do not seek help through formal shelter systems. 
 \newpage
 
-\appendix
-
-# Appendix {-}
-## Dataset and Graph Sketches {#sec-appendix-sketches}
-
-Sketches depicting both the desired dataset and the graphs generated in this analysis are available in the GitHub Repository.
-
-## Data Cleaning {#sec-appendix-cleaning}
-
-The data cleaning process involved filtering out some of the columns from the raw dataset and renaming some of the data entries for clarity and simplicity.
-
-
 # Statement on LLM usage {#sec-LLMs}
 
 Aspects of the code were written with the help of the auto-complete tool, ChatGPT. The abstract, introduction and discusstion were written with the help of ChatGPT and the entire chat history is available in other/llms/usage.txt.
-
-\newpage
-
 
 # References {#sec-references}
 
