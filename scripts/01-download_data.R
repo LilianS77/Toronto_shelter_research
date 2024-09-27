@@ -4,7 +4,7 @@
 # Date: 23 September 2024 
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: Install the tidyverse
+# Pre-requisites: Install the opendatatoronto (Gelfand 2022) and tidyverse (Wickham et al. 2019) packages.
 # Any other information needed? no
 
 
@@ -49,7 +49,7 @@ data=trt_shelter
 
 
 trt_shelter
-write.csv(trt_shelter,"/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/raw_data.csv")
+write_csv(trt_shelter, here::here("data", "raw_data", "raw_data.csv"))
 
 
 
