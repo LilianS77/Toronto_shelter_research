@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Generates a simulated version of the Toronto Shelter
 # Author: Xizi Sun
-# Date: 23 September 2024 
+# Date: 23 September 2024
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Install the tidyverse
@@ -15,7 +15,7 @@ population_groups <- c("All Population", "Chronic", "Refugees", "Families", "You
 
 # Set up the simulation for 12 months (2018), monthly data with the new date format 'date.mmm.yy'
 set.seed(123)
-n_months <- 12  # Simulate for 12 months
+n_months <- 12 # Simulate for 12 months
 dates <- format(seq(as.Date("2018-01-01"), by = "month", length.out = n_months), "%b-%y")
 
 # Create simulated data
@@ -42,6 +42,3 @@ write_csv(simulated_data, here::here("data", "raw_data", "simulated_data.csv"))
 
 # View the first few rows of the simulated data
 head(simulated_data)
-
-
-
