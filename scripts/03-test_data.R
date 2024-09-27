@@ -35,15 +35,15 @@ simulated_data$date.mmm.yy <- as.Date(paste0("01-", simulated_data$date.mmm.yy),
 date_range_simulated <- range(simulated_data$date.mmm.yy)
 cat("Date range in simulated data is from:", date_range_simulated[1], "to", date_range_simulated[2], "\n")
 
-# 4. Test the range of 'newly_identified' and 'moved_to_housing'
-cat("Range of newly_identified in simulated data:", range(simulated_data$newly_identified), "\n")
-cat("Range of moved_to_housing in simulated data:", range(simulated_data$moved_to_housing), "\n")
+# 4. Test the range of 'returned_to_shelter' and 'returned_from_housing'
+cat("Range of returned_to_shelter in simulated data:", range(simulated_data$returned_to_shelter), "\n")
+cat("Range of returned_from_housing in simulated data:", range(simulated_data$returned_from_housing), "\n")
 
-# 5. Check for outliers in 'newly_identified' and 'moved_to_housing'
-outliers_newly_identified <- simulated_data$newly_identified[simulated_data$newly_identified > (mean(simulated_data$newly_identified) + 3*sd(simulated_data$newly_identified))]
-outliers_moved_to_housing <- simulated_data$moved_to_housing[simulated_data$moved_to_housing > (mean(simulated_data$moved_to_housing) + 3*sd(simulated_data$moved_to_housing))]
-cat("Outliers in 'newly_identified':", outliers_newly_identified, "\n")
-cat("Outliers in 'moved_to_housing':", outliers_moved_to_housing, "\n")
+# 5. Check for outliers in 'returned_to_shelter' and 'returned_from_housing'
+outliers_returned_to_shelter <- simulated_data$returned_to_shelter[simulated_data$returned_to_shelter > (mean(simulated_data$returned_to_shelter) + 3*sd(simulated_data$returned_to_shelter))]
+outliers_returned_from_housing <- simulated_data$returned_from_housing[simulated_data$returned_from_housing > (mean(simulated_data$returned_from_housing) + 3*sd(simulated_data$returned_from_housing))]
+cat("Outliers in 'returned_to_shelter':", outliers_returned_to_shelter, "\n")
+cat("Outliers in 'returned_from_housing':", outliers_returned_from_housing, "\n")
 
 # 6. Summary statistics for numeric columns
 cat("Summary statistics for simulated data:\n")
@@ -79,15 +79,15 @@ cleaned_data$date.mmm.yy <- as.Date(paste0("01-", cleaned_data$date.mmm.yy), for
 date_range_cleaned <- range(cleaned_data$date.mmm.yy)
 cat("Date range in cleaned data is from:", date_range_cleaned[1], "to", date_range_cleaned[2], "\n")
 
-# 4. Test the range of 'newly_identified' and 'moved_to_housing'
-cat("Range of newly_identified in cleaned data:", range(cleaned_data$newly_identified), "\n")
-cat("Range of moved_to_housing in cleaned data:", range(cleaned_data$moved_to_housing), "\n")
+# 4. Test the range of 'returned_to_shelter' and 'returned_from_housing'
+cat("Range of returned_to_shelter in cleaned data:", range(cleaned_data$returned_to_shelter), "\n")
+cat("Range of returned_from_housing in cleaned data:", range(cleaned_data$returned_from_housing), "\n")
 
-# 5. Check for outliers in 'newly_identified' and 'moved_to_housing'
-outliers_newly_identified_cleaned <- cleaned_data$newly_identified[cleaned_data$newly_identified > (mean(cleaned_data$newly_identified) + 3*sd(cleaned_data$newly_identified))]
-outliers_moved_to_housing_cleaned <- cleaned_data$moved_to_housing[cleaned_data$moved_to_housing > (mean(cleaned_data$moved_to_housing) + 3*sd(cleaned_data$moved_to_housing))]
-cat("Outliers in 'newly_identified' (cleaned data):", outliers_newly_identified_cleaned, "\n")
-cat("Outliers in 'moved_to_housing' (cleaned data):", outliers_moved_to_housing_cleaned, "\n")
+# 5. Check for outliers in 'returned_to_shelter' and 'returned_from_housing'
+outliers_returned_to_shelter_cleaned <- cleaned_data$returned_to_shelter[cleaned_data$returned_to_shelter > (mean(cleaned_data$returned_to_shelter) + 3*sd(cleaned_data$returned_to_shelter))]
+outliers_returned_from_housing_cleaned <- cleaned_data$returned_from_housing[cleaned_data$returned_from_housing > (mean(cleaned_data$returned_from_housing) + 3*sd(cleaned_data$returned_from_housing))]
+cat("Outliers in 'returned_to_shelter' (cleaned data):", outliers_returned_to_shelter_cleaned, "\n")
+cat("Outliers in 'returned_from_housing' (cleaned data):", outliers_returned_from_housing_cleaned, "\n")
 
 # 6. Summary statistics for numeric columns
 cat("Summary statistics for cleaned data:\n")
