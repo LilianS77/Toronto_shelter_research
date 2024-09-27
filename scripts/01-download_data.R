@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Downloads and saves the data from the City of Toronto’s open data portal.
 # Author: Xizi Sun
-# Date: 23 September 2024 
+# Date: 23 September 2024
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Install the opendatatoronto (Gelfand 2022) and tidyverse (Wickham et al. 2019) packages.
@@ -14,7 +14,7 @@ library(tidyverse)
 
 
 #### Download data ####
-#We will use the `opendatatoronto` package to access a dataset from the City of Toronto’s open data portal.
+# We will use the `opendatatoronto` package to access a dataset from the City of Toronto’s open data portal.
 
 
 #| echo: false
@@ -42,16 +42,11 @@ trt_shelter_resources <- trt_shelter %>%
 # Display the list of resources available in the "Toronto Shelter System Flow" package
 trt_shelter_resources
 
-trt_shelter <- trt_shelter_resources[2,] %>%
+trt_shelter <- trt_shelter_resources[2, ] %>%
   get_resource()
-data=trt_shelter
+data <- trt_shelter
 
 
 
 trt_shelter
 write_csv(trt_shelter, here::here("data", "raw_data", "raw_data.csv"))
-
-
-
-
-         
