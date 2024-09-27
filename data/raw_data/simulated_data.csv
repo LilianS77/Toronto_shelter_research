@@ -1,4 +1,4 @@
-"","date.mmm","population_group","newly_identified","moved_to_housing","age_under_16","age_16_24","age_25_34","age_35_44","age_45_54","age_55_64","age_65over"
+"","date.mmm.yy","population_group","newly_identified","moved_to_housing","ageunder16","age16.24","age25.34","age35.44","age45.54","age55.64","age65over"
 "1","Jan-18","All Population",414,177,919,478,314,845,925,1069,928
 "2","Jan-18","Chronic",462,361,1080,1473,258,1425,406,63,740
 "3","Jan-18","Refugees",178,235,456,1134,493,119,228,530,364
