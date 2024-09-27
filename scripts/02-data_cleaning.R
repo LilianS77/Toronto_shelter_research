@@ -4,15 +4,15 @@
 # Date: 23 September 2024 
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: Install the tidyverse
+# Pre-requisites: Run the file "01-download_data.R".
 # Any other information needed? no
 
 
 # Load necessary library
 library(dplyr)
 
-# Load the raw data (replace 'raw_data.csv' with your actual file path if different)
-raw_data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/raw_data/raw_data.csv")
+# Load the raw data 
+raw_data <- read_csv(here::here("data", "raw_data", "raw_data.csv")) %>%
 
 # Perform data cleaning: keep only the columns that were simulated
 cleaned_data <- raw_data %>%
@@ -23,4 +23,4 @@ cleaned_data <- raw_data %>%
 head(cleaned_data)
 
 #### Save data ####
-write_csv(cleaned_data, "/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/analysis_data.csv")
+write_csv(cleaned_data, here::here("data", "analysis_data", "analysis_data.csv"))
