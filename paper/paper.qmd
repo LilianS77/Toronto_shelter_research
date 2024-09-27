@@ -128,7 +128,7 @@ ggplot(
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-@fig-returned-to-shelter 
+@fig-returned-to-shelter describes a significantly higher number of non-refugees and single adults returning to shelter compared to other groups. Approximately 30,000 non-refugees returned to shelter, the highest value in the chart. Single adults are slightly below 30,000, but still make up a large percentage of the population returning to shelters. Refugee, family, chronically ill, indigenous and youth groups returned to shelters in significantly lower numbers.
 ```{r}
 #| echo: false
 #| warning: false
@@ -145,20 +145,13 @@ ggplot(
 ) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Returned from Housing Across Population Groups",
     x = "Population Group", y = "Returned from Housing"
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-### firgure 2
-visualizes the number of individuals returning to shelters across various population groups. Key insights:
-
-The All Population group dominates again, with over 30,000 people returning to shelters.
-Non-refugees and Single Adults show similarly high returns, indicating that these groups have more difficulty staying housed.
-Chronic, Indigenous, and Families groups have fewer returns, although these groups may face other challenges in accessing shelter or permanent housing.
-Youth shows relatively low numbers of returns to shelters.
+@fig-returned-from-housing shows shelter returns among different demographic groups, and similar to returns to shelters, non-refugees had the highest number of returns from shelter, just over 4,000. The number of single adults is also high at just under 4,000. Chronically ill and family populations are moderately represented, with both returning from shelters in the range of 1,000 to 1,500 people. The indigenous and youth groups have the lowest rates of return from housing, with just over 500 indigenous people and just over 1,000 youth.
 
 ```{r}
 #| echo: false
@@ -198,7 +191,7 @@ ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`))
   theme(legend.position = "right") +
   scale_fill_brewer(palette = "Set3")  # Optional: Add color palette
 ```
-
+@fig-age-group-distribution-single-adult-pie shows the distribution of age groups within the current single adult homeless population, highlighting the predominance of the 25.34 and 35.44 year old age groups, which account for approximately 25.2% and 25.8% of the total population respectively. In contrast, the 16.24 year old age group is relatively underrepresented at 8.5%. 65 years and over are not represented in any of the single adult populations, accounting for 0%. The under-16s are minors and therefore account for 0%. This distribution suggests that middle-aged people form the bulk of the population, while the young and the old are virtually absent.
 ```{r}
 #| echo: false
 #| warning: false
@@ -238,29 +231,22 @@ ggplot(age_group_proportion_trend_yearly, aes(x = factor(year), y = Proportion, 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+@fig-age-group-proportion-trend-yearly shows several important trends in the homeless population by age group. The 25-34 and 35-44 age groups have been consistently higher than other age groups since 2018 and are growing, especially after 2021. 25-44 year olds make up a growing share of the homeless population, totaling more than 50 percent of the total in 2024. At the same time, the number of homeless people in the middle-aged age group of 45.54 to 55.64 years is decreasing, and the 65+ age group is trending downwards after 2022. Children and young people (under 16) will start to decline after 2018 but will increase after 2021.
 
-```
- shows the trends in the number of actively homeless individuals across different population groups from 2018 to 2024. Key trends:
+\newpage
 
-The All Population group consistently has the highest number of actively homeless individuals over time, though there are fluctuations in the count.
-Non-refugees and Single Adults have seen a significant increase in actively homeless individuals since 2020, which may indicate worsening conditions or increased difficulty in accessing housing.
-Chronic and Families groups have more stable trends, while Youth and Indigenous groups show more modest and stable numbers.
-The trend highlights the overall increase in homelessness post-2020 for several groups, which could be linked to broader economic or social factors affecting housing availability.
+# Discussion {#sec-data}
 
+## Overview of Homeless in Toronto  {#sec-overview-of-Toronto-homeless}
+Rising rates of homelessness in Toronto reflect significant challenges in managing housing instability, particularly among specific vulnerable groups. According to a comprehensive literature review on homelessness in Toronto, the number of homeless people has increased dramatically over the past few decades [@gaetz2004homelessness]. The data @fig-returned-to-shelter and @fig-returned-from-housing shows that non-refugees and single adults make up the largest percentage of those returning to shelters, demonstrating their vulnerability and continued housing insecurity. This trend is likely caused by economic challenges, lack of affordable housing, and inadequate social safety nets. The literature [@gaetz2004homelessness] highlights how policy changes, including cuts to social housing and benefits, have exacerbated the problem, putting more people at risk of chronic homelessness.
 
-# Discussion
-This analysis sheds light on the patterns and dynamics of homelessness in Toronto, drawing on data from the City’s shelter system. The key findings indicate significant challenges for certain population groups in maintaining permanent housing, frequent returns to shelters, and a concerning rise in homelessness over time, particularly after 2020.
+## Impact of unemployment on single adults aged 25-44 years {#sec-Impact-of-Unemployment}
+In @fig-returned-to-shelter and @fig-returned-from-housing, we see that single adults make up a large portion of those returning to shelters for help. And from @fig-age-group-distribution-single-adult-pie and @fig-age-group-proportion-trend-yearly, 25-44 year olds make up a large portion of single adults and the overall homeless population. The unemployment crisis has severely impacted single adults, especially those aged 25-44, who make up a large portion of the homeless population.The COVID-19 pandemic triggered a sharp economic downturn that led to widespread unemployment and income insecurity. According to [@jones2020canadianlabourmarket], Canada's unemployment rate rose sharply in 2020, with young and middle-aged adults disproportionately affected. This population is particularly vulnerable because they rely heavily on employment to pay rent and meet basic needs. Without a steady income, many in this age group face eviction, bankruptcy, and an increased likelihood of homelessness. This is compounded by mental health challenges and limited access to social services [@poremski2015employment].
 
-## First discussion point {#sec-first-point}
-The Returned from Housing analysis revealed that individuals from the Non-refugee and Single Adult groups face persistent barriers in sustaining housing stability, with high return rates to shelters. This suggests that these groups may not be receiving sufficient support or resources, such as access to affordable housing, stable employment opportunities, or necessary mental health services. Additionally, the overall high return rate across the All Population group reflects the broader systemic issue of housing insecurity in Toronto, where many individuals struggle to transition from temporary shelters to permanent housing.
-
-## Second discussion point
-The Returned to Shelter plot reinforced these findings, highlighting how certain population groups—particularly Non-refugees and Single Adults—are cycling in and out of the shelter system more frequently. This revolving-door effect suggests that while shelters provide temporary relief, they are not effectively breaking the cycle of homelessness for many individuals. The lower return rates for Chronic, Families, and Youth might indicate more successful interventions for these groups, though their continued presence in shelters points to a need for further long-term solutions
-
-## Third discussion point
-The Trend of Actively Homeless Population Over Time provides a broader context for understanding how homelessness in Toronto has evolved. The significant rise in homelessness after 2020, especially among Non-refugees and Single Adults, may be attributed to the economic impact of the COVID-19 pandemic, including job losses, eviction increases, and reduced access to social services. This trend underscores the vulnerability of certain groups during times of economic instability and highlights the need for responsive, proactive policies that address housing affordability, economic security, and social support.
-
-
+## Future Insights {#sec-Future-Insights}
+Given the rising rates of homelessness among single adults, public policy interventions must address both immediate and long-term solutions. Expanding affordable housing and strengthening employment support programs are critical. Governments at all levels should also focus on improving access to mental health services and implementing policies that prevent evictions, especially in times of economic crises. A particular emphasis should be placed on preventative measures, such as emergency rental assistance programs and increasing the availability of affordable housing [@gaetz2004homelessness]. Additionally, the development of job retraining programs tailored to individuals who have lost employment due to economic downturns could provide sustainable solutions for those in the 25-44 age bracket.
+## Weakness and Limitations {#sec-Weakness-and-Limitations}
+While the data provides valuable insights into homelessness trends in Toronto, there are important limitations that should be acknowledged. The dataset reflects only individuals who use overnight shelter services, excluding those who sleep outdoors or rely on non-shelter-based services. Additionally, shelters that do not participate in Toronto's Shelter Management Information System (SMIS) are not included in the dataset. As a result, the data may underestimate the total homeless population, especially among individuals who do not seek help through formal shelter systems. 
 \newpage
 
 \appendix
@@ -274,13 +260,13 @@ Sketches depicting both the desired dataset and the graphs generated in this ana
 
 The data cleaning process involved filtering out some of the columns from the raw dataset and renaming some of the data entries for clarity and simplicity.
 
-# Additional data details
 
+# Statement on LLM usage {#sec-LLMs}
 
+Aspects of the code were written with the help of the auto-complete tool, ChatGPT. The abstract, introduction and discusstion were written with the help of ChatGPT and the entire chat history is available in other/llms/usage.txt.
 
 \newpage
 
 
-# References
-
+# References {#sec-references}
 
