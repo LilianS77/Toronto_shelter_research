@@ -163,12 +163,13 @@ single_adult_population <- cleaned_data %>%
   group_by(`Age Group`) %>%
   summarise(total_population = sum(Count, na.rm = TRUE), .groups = "drop")
 
-# Calculate percentages
+# Calculate percentages and filter out zero percentages
 single_adult_population <- single_adult_population %>%
   mutate(
     percentage = total_population / sum(total_population) * 100,
     label = paste0(round(percentage, 1), "%")
-  ) # Create a label with percentage
+  ) %>%
+  filter(percentage > 0) # Exclude rows where percentage is 0
 
 # Plot the pie chart
 ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`)) +
@@ -178,6 +179,7 @@ ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`))
   theme_void() + # Remove unnecessary axes
   theme(legend.position = "right") +
   scale_fill_brewer(palette = "Set3") # Optional: Add color palette
+
 ```
 @fig-age-group-distribution-single-adult-pie shows the distribution of age groups within the current single adult homeless population, highlighting the predominance of the 25.34 and 35.44 year old age groups, which account for approximately 25.2% and 25.8% of the total population respectively. In contrast, the 16.24 year old age group is relatively underrepresented at 8.5%. 65 years and over are not represented in any of the single adult populations, accounting for 0%. The under-16s are minors and therefore account for 0%. This distribution suggests that middle-aged people form the bulk of the population, while the young and the old are virtually absent.
 ```{r}
