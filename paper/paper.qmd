@@ -5,7 +5,7 @@ author:
 thanks: "A GitHub Repository containing all data, R code, and other files used in this investigation is located here: https://github.com/LilianS77/Toronto_shelter_research.git"
 date: today
 date-format: long
-abstract: "This paper analyzes data from the City of Toronto's Shelter Management Information System (SMIS) to explore homelessness trends and shelter usage patterns. Key metrics such as returns to shelters after housing and the actively homeless population are examined across different demographic groups. The findings reveal that non-refugees and single adults face significant challenges in maintaining stable housing, with high rates of return to shelters. Additionally, the data shows an increase in homelessness post-2020, likely influenced by economic disruptions during the COVID-19 pandemic. The study highlights the need for targeted interventions to address housing stability and reduce homelessness in Toronto."
+abstract: "重写·"
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -16,14 +16,13 @@ bibliography: references.bib
 #| warning: false
 #| message: false
 
-library(tidyverse)
-library(palmerpenguins)
 library(opendatatoronto)
 library(tidyverse)
+library(knitr)
 ```
 
 
-# Introduction
+# Introduction {#sec-introduction}
 
 Homelessness is a pressing issue in major cities worldwide, and Toronto is no exception. Recent observations suggest a growing number of homeless individuals on Toronto streets, raising concerns about the dynamics of the shelter system, the demographics of those affected, and their pathways into homelessness. To address these concerns, this study aims to analyze the flow of individuals into and out of Toronto’s shelter system, with a particular focus on understanding the origins and characteristics of the homeless population.By analyzing the patterns in shelter use, this study seeks to answer key questions such as: where are these individuals coming from, what are their demographic characteristics, and how frequently do they cycle through the shelter system? Understanding these factors is critical for identifying gaps in services and making data-driven policy recommendations to reduce homelessness in Toronto. The ultimate goal, in line with the City’s vision, is to contribute to efforts that make homelessness in Toronto a rare, brief, and non-recurring experience.
 
@@ -31,23 +30,38 @@ In this paper, I will analyze key indicators such as the number of people return
 
 This paper is organized into several sections, each contributing to a comprehensive understanding of homelessness in Toronto, based on the provided shelter system dataset. The structure includes an exploration of the dataset, visualizations of key metrics, analysis of trends and patterns, and a discussion of the implications of these findings.
 
-
 # Data {#sec-data}
-## Overview
-The dataset used in this study is sourced from the City of Toronto’s Shelter Management Information System (SMIS). This system tracks individuals who access the city's network of overnight shelters, respites, hotel/motel programs, and other allied services. The dataset provides monthly records on the movement of people into and out of these services, offering insight into the demographics, trends, and dynamics of homelessness in Toronto.
 
-## Data Measurement
-The dataset used in this study comes from the City of Toronto’s Shelter Management Information System (SMIS), which tracks individuals using shelters, respites, and other homeless services. The key variables and measurements include:
+## Data Tools {#sec-data-tools}
+All data analysis and visualizations were conducted using R [@citeR]. Data was obtained from the City of Toronto's Open Data Catalogue [@opendata] and included the Toronto Shelter System Flow dataset [@torontosheltersystem]. Visualizations were created using the ggplot2 package [@ggplot2], with data manipulation carried out via dplyr [@dplyr] and tidyr [@tidyr]. Date handling was simplified with the lubridate package [@lubridate], and all R code was formatted using the styler package [@styler]. Guidance on storytelling with data was drawn from Telling Stories with Data [@tellingstorieswithdata].
 
-1. Shelter Flow Metrics
-Returned from Housing: Measures the number of people who were housed but returned to shelters, indicating the challenges in maintaining stable housing.
-Returned to Shelter: Tracks the number of people returning to shelters after leaving, providing insight into repeat shelter use.
-Newly Identified: Captures individuals entering the shelter system for the first time, highlighting new cases of homelessness.
-Moved to Housing: Counts people transitioning from shelters into permanent housing, a key measure of the system’s success in reducing homelessness.
-2. Population Groups
-Chronic Homelessness: Long-term homelessness, defined as 180 days in the past year or 546 days over three years.
-Families, Youth, and Refugees: Specific groups are tracked to tailor interventions and support services based on different needs.
-Indigenous Identity: Tracks those self-identifying as First Nations, Métis, or Inuit, given their disproportionate representation in the homeless population.
+## Data Source And Measurement {#sec-data-source-and-measurement}
+The dataset Toronto Shelter System Flow[@torontosheltersystem] used in this study is sourced from the Toronto Open Data Platform[@opendata]. It measures and tracks homelessness in Toronto by capturing information through a Shelter Management Information System (SMIS) that covers various services such as shelters, 24-hour respite sites, and warming centers funded by the City of Toronto. The data spans from January 2018 to September 2024 and includes individuals who have accessed any of these services in the past three months. The dataset updated monthly and published on the 15th of each month, provides monthly records on the movement of people into and out of these services, offering insight into the demographics, trends, and dynamics of homelessness in Toronto.
+
+The table [@tbl-cleaned-data] shows the variables after data cleaning, showing 6 of the 604 observations. Due to space constraints we are only showing 2 age groups in this table. The variable “date.mmm.yyy.” goes by month from 2018 to August 2024. The data covers different age groups: under 16, 16-24, 25-34, 35-44, 45-54, 55-64, 65 and over, and types of population: refugees, single adults, families, youth, and chronically ill. It tracks inflow and outflow: returned from shelter and returned from housing.
+
+```{r}
+#| label: tbl-cleaned-data
+#| tbl-cap: Sample of cleaned lead data 
+#| echo: false
+
+# Load the dataset
+cleaned_data <- read_csv(here::here("data", "analysis_data", "analysis_data.csv"), show_col_types = FALSE)
+
+# Display the first 6 rows of selected columns and match with column names
+head(cleaned_data[, c("date.mmm.yy.", "population_group", "returned_from_housing", "returned_to_shelter", "ageunder16", "age16.24")], 6) |>
+  kable(
+    col.names = c("Date", "Population Group", "Returned from Housing", "Returned to Shelter", "Age under 16", "Age 16-24"),
+    booktabs = TRUE
+  )
+
+```
+
+
+## Data Selection
+
+There are many databases on homelessness in Toronto, such as About Hostel Services: Homeless Shelter Locations[@toronto2019hostelservices], but it doesn't distinguish well between population types, and we can't tell from it where homeless people come from. The data [@torontosheltersystem] I chose has very complete age groupings and also divides the people who seek help from shelters like they return from housing or return to shelter. better still we can know more information about the homeless from this dataset such as whether they are refugees, single or have a family so that we can combine it with the literature to have a better discussion about the Homeless trends and causes of homelessness in Toronto.
+
 \newpage
 
 # result
@@ -55,76 +69,178 @@ Indigenous Identity: Tracks those self-identifying as First Nations, Métis, or 
 ```{r}
 #| echo: false
 #| warning: false
-#| label: fig-returned-from-housing
-#| fig-cap: "Returned from Housing Across Population Groups"
-# Load necessary libraries
+#| label: fig-total-homeless-trend-by-quarter
+#| fig-cap: "Total Homeless Population Trend by Quarter"
 library(ggplot2)
 library(dplyr)
+library(lubridate)
 
-# Load the dataset (update with your file path)
-data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/trtdata1.csv")
+# Generated by ChatGPT
 
-# Bar plot for 'returned_from_housing'
-ggplot(data, aes(x = population_group, y = returned_from_housing, fill = population_group)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Returned from Housing Across Population Groups",
-       x = "Population Group", y = "Returned from Housing") +
+# Define the age group columns
+age_columns <- c("ageunder16", "age16.24", "age25.34", "age35.44", "age45.54", "age55.64", "age65over")
+
+# Convert the date column to a proper date format, extract year and quarter, and filter out 2024 Q3
+total_homeless_quarter_trend <- cleaned_data %>%
+  mutate(
+    date = as.Date(paste0("01-", date.mmm.yy.), format = "%d-%b-%y"),
+    year = year(date),
+    quarter = quarter(date)
+  ) %>%
+  filter(!(year == 2024 & quarter == 3)) %>%
+  group_by(year, quarter) %>%
+  summarise(total_homeless = sum(across(all_of(age_columns)), na.rm = TRUE), .groups = "drop") %>%
+  mutate(period = paste0(year, " Q", quarter)) # Create a combined year-quarter label
+
+# Create a line plot to show the total homeless population trend by quarter (excluding 2024 Q3)
+ggplot(total_homeless_quarter_trend, aes(x = period, y = total_homeless, group = 1)) +
+  geom_line(color = "blue") +
+  geom_point(color = "blue") +
+  labs(
+    x = "Year-Quarter", y = "Total Homeless Population"
+  ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 ```
-### figure 1
-This bar plot shows the number of individuals from different population groups who returned to shelters after previously being housed. Key insights from the graph:
 
-The All Population group has the highest number of returns from housing, with over 4,000 individuals.
-Non-refugees and Single Adults also have a significant number of returns, indicating challenges for these groups in maintaining permanent housing.
-Other population groups, such as Chronic, Families, and Youth, have much lower numbers of individuals returning from housing, but this might reflect their smaller total numbers in the population or different levels of support they receive.
+
+@fig-total-homeless-trend-by-quarter shows the total homeless population trend from 2018 Q1 to 2024 Q2. The population rises until 2019, then sharply declines in 2020, with the lowest point falling below 60,000. From 2021 onward, the population steadily increases, reaching its highest point in 2024 Q2, exceeding 80,000.
 ```{r}
 #| echo: false
 #| warning: false
 #| label: fig-returned-to-shelter
 #| fig-cap: "Returned to Shelter Across Population Groups"
-ggplot(data, aes(x = population_group, y = returned_to_shelter, fill = population_group)) +
+
+# Load dplyr to ensure filter works
+library(dplyr)
+
+#Generated by ChatGPT
+
+# Assuming 'cleaned_data' or 'data' is your dataframe
+ggplot(
+  cleaned_data %>% dplyr::filter(population_group != "All Population"),
+  aes(x = population_group, y = returned_to_shelter, fill = population_group)
+) +
   geom_bar(stat = "identity") +
-  labs(title = "Returned to Shelter Across Population Groups",
-       x = "Population Group", y = "Returned to Shelter") +
+  labs(
+  x = "Population Group", y = "Returned to Shelter"
+  ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+@fig-returned-to-shelter 
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-returned-from-housing
+#| fig-cap: "Returned from Housing Across Population Groups"
+
+# Load dplyr to ensure the correct filter function is used
+library(dplyr)
+
+# Ensure you are referencing the correct dataset, like 'cleaned_data'
+ggplot(
+  cleaned_data %>% dplyr::filter(population_group != "All Population"),
+  aes(x = population_group, y = returned_from_housing, fill = population_group)
+) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Returned from Housing Across Population Groups",
+    x = "Population Group", y = "Returned from Housing"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 ### firgure 2
-This bar plot visualizes the number of individuals returning to shelters across various population groups. Key insights:
+visualizes the number of individuals returning to shelters across various population groups. Key insights:
 
 The All Population group dominates again, with over 30,000 people returning to shelters.
 Non-refugees and Single Adults show similarly high returns, indicating that these groups have more difficulty staying housed.
 Chronic, Indigenous, and Families groups have fewer returns, although these groups may face other challenges in accessing shelter or permanent housing.
 Youth shows relatively low numbers of returns to shelters.
+
 ```{r}
 #| echo: false
 #| warning: false
-#| label: fig-total-population
-#| fig-cap: "Trend of Homeless Population in Toronto"
-# Load necessary libraries
+#| label: fig-age-group-distribution-single-adult-pie
+#| fig-cap: "Age Group Distribution in Single Adult Population"
 library(ggplot2)
 library(dplyr)
+library(lubridate)
 
-# Load the dataset (update the file path)
-data <- read.csv("/Users/XiziS/OneDrive/Desktop/1/Toronto_shelter_research/data/analysis_data/trtdata1.csv")
+#generated by ChatGPT
 
-# Convert the 'date.mmm.yy.' column to Date format
-data$date <- as.Date(paste0("01-", data$date.mmm.yy.), format = "%d-%b-%y")
+# Define the age group columns
+age_columns <- c("ageunder16", "age16.24", "age25.34", "age35.44", "age45.54", "age55.64", "age65over")
 
-# Create a line plot to show the trend of a key population metric over time
-ggplot(data, aes(x = date, y = actively_homeless, color = population_group, group = population_group)) +
-  geom_line() +
-  labs(title = "Trend of Actively Homeless Population Over Time",
-       x = "Date", y = "Actively Homeless Count",
-       color = "Population Group") +
+# Filter for Single Adult Population, adjust this filter condition based on your actual dataset structure
+single_adult_population <- cleaned_data %>%
+  filter(population_group == "Single Adult") %>%
+  pivot_longer(cols = all_of(age_columns), names_to = "Age Group", values_to = "Count") %>%
+  group_by(`Age Group`) %>%
+  summarise(total_population = sum(Count, na.rm = TRUE), .groups = "drop")
+
+# Calculate percentages
+single_adult_population <- single_adult_population %>%
+  mutate(percentage = total_population / sum(total_population) * 100,
+         label = paste0(round(percentage, 1), "%"))  # Create a label with percentage
+
+# Plot the pie chart
+ggplot(single_adult_population, aes(x = "", y = percentage, fill = `Age Group`)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Age Group Distribution in Single Adult Population"
+  ) +
+  geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +  # Add percentage labels
+  theme_void() +  # Remove unnecessary axes
+  theme(legend.position = "right") +
+  scale_fill_brewer(palette = "Set3")  # Optional: Add color palette
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-age-group-proportion-trend-yearly
+#| fig-cap: "Trends in Age Group Proportions Over Time (Yearly)"
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+#developed by ChatGPT
+
+# Define the age group columns
+age_columns <- c("ageunder16", "age16.24", "age25.34", "age35.44", "age45.54", "age55.64", "age65over")
+
+# Convert the date column to a proper date format, extract year, and calculate the total population and proportions for each age group
+age_group_proportion_trend_yearly <- cleaned_data %>%
+  mutate(
+    date = as.Date(paste0("01-", date.mmm.yy.), format = "%d-%b-%y"),
+    year = year(date)
+  ) %>%
+  pivot_longer(cols = all_of(age_columns), names_to = "Age Group", values_to = "Count") %>%
+  group_by(year, `Age Group`) %>%
+  summarise(total_population = sum(Count, na.rm = TRUE), .groups = "drop") %>%
+  group_by(year) %>%
+  mutate(Proportion = total_population / sum(total_population)) %>%
+  ungroup()
+
+# Create a line plot to show the age group proportion trend over time (yearly)
+ggplot(age_group_proportion_trend_yearly, aes(x = factor(year), y = Proportion, color = `Age Group`, group = `Age Group`)) +
+  geom_line(size = 1.2) +
+  geom_point() +
+  scale_y_continuous(labels = scales::percent) +  # Format y-axis as percentages
+  labs(
+    x = "Year", y = "Proportion of Population"
+  ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-### firgure 3
-This line plot shows the trends in the number of actively homeless individuals across different population groups from 2018 to 2024. Key trends:
+
+```
+ shows the trends in the number of actively homeless individuals across different population groups from 2018 to 2024. Key trends:
 
 The All Population group consistently has the highest number of actively homeless individuals over time, though there are fluctuations in the count.
 Non-refugees and Single Adults have seen a significant increase in actively homeless individuals since 2020, which may indicate worsening conditions or increased difficulty in accessing housing.
