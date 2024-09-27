@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: test both simulated and cleaned data
 # Author: Xizi Sun
-# Date: 23 September 2024 
+# Date: 23 September 2024
 # Contact: xizi.sun@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Run the files "01-download_data.R" and "02-data_cleaning.R".
@@ -41,8 +41,8 @@ cat("Range of returned_to_shelter in simulated data:", range(simulated_data$retu
 cat("Range of returned_from_housing in simulated data:", range(simulated_data$returned_from_housing), "\n")
 
 # 5. Check for outliers in 'returned_to_shelter' and 'returned_from_housing'
-outliers_returned_to_shelter <- simulated_data$returned_to_shelter[simulated_data$returned_to_shelter > (mean(simulated_data$returned_to_shelter) + 3*sd(simulated_data$returned_to_shelter))]
-outliers_returned_from_housing <- simulated_data$returned_from_housing[simulated_data$returned_from_housing > (mean(simulated_data$returned_from_housing) + 3*sd(simulated_data$returned_from_housing))]
+outliers_returned_to_shelter <- simulated_data$returned_to_shelter[simulated_data$returned_to_shelter > (mean(simulated_data$returned_to_shelter) + 3 * sd(simulated_data$returned_to_shelter))]
+outliers_returned_from_housing <- simulated_data$returned_from_housing[simulated_data$returned_from_housing > (mean(simulated_data$returned_from_housing) + 3 * sd(simulated_data$returned_from_housing))]
 cat("Outliers in 'returned_to_shelter':", outliers_returned_to_shelter, "\n")
 cat("Outliers in 'returned_from_housing':", outliers_returned_from_housing, "\n")
 
@@ -84,8 +84,8 @@ cat("Range of returned_to_shelter in cleaned data:", range(cleaned_data$returned
 cat("Range of returned_from_housing in cleaned data:", range(cleaned_data$returned_from_housing), "\n")
 
 # 5. Check for outliers in 'returned_to_shelter' and 'returned_from_housing'
-outliers_returned_to_shelter_cleaned <- cleaned_data$returned_to_shelter[cleaned_data$returned_to_shelter > (mean(cleaned_data$returned_to_shelter) + 3*sd(cleaned_data$returned_to_shelter))]
-outliers_returned_from_housing_cleaned <- cleaned_data$returned_from_housing[cleaned_data$returned_from_housing > (mean(cleaned_data$returned_from_housing) + 3*sd(cleaned_data$returned_from_housing))]
+outliers_returned_to_shelter_cleaned <- cleaned_data$returned_to_shelter[cleaned_data$returned_to_shelter > (mean(cleaned_data$returned_to_shelter) + 3 * sd(cleaned_data$returned_to_shelter))]
+outliers_returned_from_housing_cleaned <- cleaned_data$returned_from_housing[cleaned_data$returned_from_housing > (mean(cleaned_data$returned_from_housing) + 3 * sd(cleaned_data$returned_from_housing))]
 cat("Outliers in 'returned_to_shelter' (cleaned data):", outliers_returned_to_shelter_cleaned, "\n")
 cat("Outliers in 'returned_from_housing' (cleaned data):", outliers_returned_from_housing_cleaned, "\n")
 
